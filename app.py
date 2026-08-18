@@ -16,10 +16,20 @@ st.sidebar.header("Model Parameters")
 
 uploaded_file = st.sidebar.file_uploader("Upload Malkapur-Nandurbar Spreadsheet (Excel)", type=["xlsx"])
 
-max_soc = st.sidebar.slider("Max SoC (%)", min_value=50, max_value=100, value=85)
-min_soc = st.sidebar.slider("Min SoC (%)", min_value=0, max_value=50, value=15)
+max_soc = st.sidebar.number_input("Max SoC (%)", value=85)
+min_soc = st.sidebar.number_input("Min SoC (%)", value=15)
 max_bess_hrs = st.sidebar.number_input("Max BESS Hours", value=12.0)
-tariff_cap = st.sidebar.number_input("Tariff Cap (Rs/kWh)", value=5.5)
+tariff_caps = st.sidebar.number_input("Tariff Cap (Rs/kWh)", value=5.5)
+RTEs = st.sidebar.number_input("Round-Trip Efficiency (%)", value=85)
+discharge_degradations = st.sidebar.number_input("Discharge Degradation Per Year (%)", value=1)
+cost_escalations = st.sidebar.number_input("Cost Escalation Per Year (%)", value=3)
+min_effective_replacements = st.sidebar.number_input("Minimum Effective Replacement (%)", value=70)
+solar_capexs = st.sidebar.number_input("Solar CAPEX (INR Mn./Capacity)", value=40)
+wind_capexs = st.sidebar.number_input("Wind CAPEX (INR Mn./Capacity)", value=90)
+BESS_capexs = st.sidebar.number_input("BESS CAPEX (INR Mn./Capacity)", value=10)
+max_grid_windh = st.sidebar.number_input("Maximum Grid Allowable Wind (kWh)", value=49500)
+max_grid_solarh = st.sidebar.number_input("Maximum Grid Allowable Solar (kWh)", value=150000)
+
 
 run_model = st.sidebar.button("Run Optimization", type="primary")
 
@@ -37,7 +47,17 @@ if run_model:
                     max_soc_perc=max_soc / 100.0,
                     min_soc_perc=min_soc / 100.0,
                     max_bess_hours=max_bess_hrs,
-                    tariff_cap=tariff_cap
+                    max_grid_allowable=max_grid_windh+max_grid_solarh,
+                    max_grid_wind=max_grid_windh,
+                    max_grid_solar=max_grid_solarh,
+                    RTE=RTEs / 100,
+                    tariff_cap=tariff_caps,
+                    solar_capex=solar_capexs,
+                    wind_capex=wind_capexs,
+                    BESS_capex=BESS_capexs,
+                    discharge_degradation=(100 - discharge_degradations) / 100,
+                    cost_escalation=(cost_escalations + 100) / 100,
+                    min_effective_replacement=min_effective_replacements / 100
                 )
                 
                 # Run the model
