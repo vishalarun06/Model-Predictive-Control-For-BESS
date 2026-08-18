@@ -4,7 +4,7 @@ import io
 
 # Import your existing class from your script
 # Make sure your original file is named Minimising_Capex_EBITDA.py
-from Minimising_Capex_EBITDA import BESSSettlementOptimizer
+from Minimising_Capex_EBITDA1 import BESSSettlementOptimizer
 
 st.set_page_config(page_title="BESS Sizing Optimizer", layout="wide")
 
